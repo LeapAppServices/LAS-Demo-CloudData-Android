@@ -12,10 +12,31 @@
 bin/
 gen/
 
-# Gradle files
-.gradle/
+# Gradle Files
+.gradle
+.gradletasknamecache
+.m2
+
+# Build output directies
+target/
 build/
 /*/build/
+
+# AndroidStudio specific files/directories
+local.properties
+
+# Android files
+*.apk
+*.ap_
+*.dex
+
+# IntelliJ specific files/directories
+out
+.idea
+*.ipr
+*.iws
+*.iml
+atlassian-ide-plugin.xml
 
 # Local configuration file (sdk path, etc)
 local.properties
