@@ -3,9 +3,6 @@ package as.leap.demo.clouddata.log;
 import as.leap.LogNode;
 import as.leap.utils.FileHandle;
 
-/**
- * Created by mrseasons on 2015/05/15.
- */
 public class FileLogNode implements LogNode {
 
     private FileHandle handle;
