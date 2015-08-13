@@ -1,8 +1,8 @@
-# LAS-Demo-CloudData-Android
+# LeapCloud-Demo-CloudData-Android
 
 ## 简介
 
-CloudData 是 LAS SDK 的一个 Sample，该项目依赖于 LAS 的基础模块。通过该应用你可以学习和了解基于 LAS SDK 的 Cloud Data 部分的相关操作。
+CloudData 是 LeapCloud SDK 的一个 Sample，该项目依赖于 LeapCloud 的基础模块。通过该应用你可以学习和了解基于 LeapCloud SDK 的 Cloud Data 部分的相关操作。
 
 整个项目由多个画面构成，每个画面都会介绍一些该模块相关的基本操作，如普通数据的存储，查询语句的使用，文件的上下传等。
 
