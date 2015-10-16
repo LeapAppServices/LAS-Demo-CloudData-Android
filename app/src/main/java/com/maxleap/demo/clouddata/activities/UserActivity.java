@@ -1,22 +1,22 @@
-package as.leap.demo.clouddata.activities;
+package com.maxleap.demo.clouddata.activities;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import as.leap.LASAnonymousUtils;
-import as.leap.LASLog;
-import as.leap.LASUser;
-import as.leap.LASUserManager;
-import as.leap.callback.LogInCallback;
-import as.leap.callback.RequestEmailVerifyCallback;
-import as.leap.callback.RequestPasswordResetCallback;
-import as.leap.callback.SaveCallback;
-import as.leap.callback.SignUpCallback;
-import as.leap.demo.clouddata.R;
-import as.leap.demo.clouddata.log.LogActivity;
-import as.leap.exception.LASException;
+import com.maxleap.LogInCallback;
+import com.maxleap.MLAnonymousUtils;
+import com.maxleap.MLLog;
+import com.maxleap.MLUser;
+import com.maxleap.MLUserManager;
+import com.maxleap.RequestEmailVerifyCallback;
+import com.maxleap.RequestPasswordResetCallback;
+import com.maxleap.SaveCallback;
+import com.maxleap.SignUpCallback;
+import com.maxleap.demo.clouddata.R;
+import com.maxleap.demo.clouddata.log.LogActivity;
+import com.maxleap.exception.MLException;
 
 public class UserActivity extends LogActivity {
 
@@ -33,18 +33,18 @@ public class UserActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                final LASUser user = new LASUser();
+                final MLUser user = new MLUser();
                 user.setUserName("AndroidUser");
                 user.setPassword("password");
                 user.setEmail("android@example.com");
-                LASUserManager.signUpInBackground(user, new SignUpCallback() {
+                MLUserManager.signUpInBackground(user, new SignUpCallback() {
 
                     @Override
-                    public void done(LASException exception) {
+                    public void done(MLException exception) {
                         if (exception == null) {
-                            LASLog.i(TAG, "finish signing up");
+                            MLLog.i(TAG, "finish signing up");
                         } else {
-                            LASLog.e(TAG, exception.getMessage());
+                            MLLog.e(TAG, exception.getMessage());
                             exception.printStackTrace();
                         }
                     }
@@ -56,16 +56,16 @@ public class UserActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                LASUserManager.logInInBackground("AndroidUser",
-                        "password", new LogInCallback<LASUser>() {
+                MLUserManager.logInInBackground("AndroidUser",
+                        "password", new LogInCallback<MLUser>() {
 
                             @Override
-                            public void done(LASUser user,
-                                             LASException exception) {
+                            public void done(MLUser user,
+                                             MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG, "finish logging in");
+                                    MLLog.i(TAG, "finish logging in");
                                 } else {
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                     exception.printStackTrace();
                                 }
                             }
@@ -77,14 +77,14 @@ public class UserActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                LASAnonymousUtils.loginInBackground(new LogInCallback<LASUser>() {
+                MLAnonymousUtils.loginInBackground(new LogInCallback<MLUser>() {
 
                     @Override
-                    public void done(LASUser user, LASException exception) {
+                    public void done(MLUser user, MLException exception) {
                         if (exception == null) {
                             Log.d(TAG, "finish signing up anonymous user");
                         } else {
-                            LASLog.e(TAG, exception.getMessage());
+                            MLLog.e(TAG, exception.getMessage());
                             exception.printStackTrace();
                         }
                     }
@@ -96,16 +96,16 @@ public class UserActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                LASUser user = LASUser.getCurrentUser();
+                MLUser user = MLUser.getCurrentUser();
                 if (user != null) {
-                    LASUser.logOut();
-                    if (LASUser.getCurrentUser() == null) {
-                        LASLog.i(TAG, "finish logging out");
+                    MLUser.logOut();
+                    if (MLUser.getCurrentUser() == null) {
+                        MLLog.i(TAG, "finish logging out");
                     } else {
-                        LASLog.e(TAG, "fail to logout");
+                        MLLog.e(TAG, "fail to logout");
                     }
                 } else {
-                    LASLog.i(TAG,
+                    MLLog.i(TAG,
                             "current user not exist, please signup a new user first");
                 }
             }
@@ -115,22 +115,22 @@ public class UserActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                LASUser user = LASUser.getCurrentUser();
+                MLUser user = MLUser.getCurrentUser();
                 if (user == null) {
-                    LASLog.e(TAG, "Please signup a user first");
+                    MLLog.e(TAG, "Please signup a user first");
                 } else if (!user.isAuthenticated()) {
-                    LASLog.e(TAG, "Please login first");
+                    MLLog.e(TAG, "Please login first");
                 } else {
-                    LASUserManager.becomeInBackground(user.getSessionToken(),
-                            new LogInCallback<LASUser>() {
+                    MLUserManager.becomeInBackground(user.getSessionToken(),
+                            new LogInCallback<MLUser>() {
 
                                 @Override
-                                public void done(LASUser becomeUser,
-                                                 LASException exception) {
+                                public void done(MLUser becomeUser,
+                                                 MLException exception) {
                                     if (exception == null) {
-                                        LASLog.i(TAG, "finish becoming");
+                                        MLLog.i(TAG, "finish becoming");
                                     } else {
-                                        LASLog.e(TAG, exception.getMessage());
+                                        MLLog.e(TAG, exception.getMessage());
                                         exception.printStackTrace();
                                     }
                                 }
@@ -144,17 +144,17 @@ public class UserActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                LASUserManager.requestEmailVerifyInBackground(
+                MLUserManager.requestEmailVerifyInBackground(
                         "android@example.com",
                         new RequestEmailVerifyCallback() {
 
                             @Override
-                            public void done(LASException exception) {
+                            public void done(MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG,
+                                    MLLog.i(TAG,
                                             "finish requesting email verify");
                                 } else {
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                     exception.printStackTrace();
                                 }
                             }
@@ -167,17 +167,17 @@ public class UserActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                LASUserManager.requestPasswordResetInBackground(
+                MLUserManager.requestPasswordResetInBackground(
                         "android@example.com",
                         new RequestPasswordResetCallback() {
 
                             @Override
-                            public void done(LASException exception) {
+                            public void done(MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG,
+                                    MLLog.i(TAG,
                                             "finsh requesting password");
                                 } else {
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                     exception.printStackTrace();
                                 }
                             }
@@ -190,29 +190,29 @@ public class UserActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                LASAnonymousUtils.loginInBackground(new LogInCallback<LASUser>() {
+                MLAnonymousUtils.loginInBackground(new LogInCallback<MLUser>() {
 
                     @Override
-                    public void done(LASUser user, LASException exception) {
+                    public void done(MLUser user, MLException exception) {
                         if (exception == null) {
                             user.setUserName("Foo");
                             user.setPassword("bar");
-                            LASUserManager.saveInBackground(user,
+                            MLUserManager.saveInBackground(user,
                                     new SaveCallback() {
 
                                         @Override
-                                        public void done(LASException exception) {
+                                        public void done(MLException exception) {
                                             if (exception == null) {
-                                                LASLog.i(TAG,
+                                                MLLog.i(TAG,
                                                         "finish saving");
                                             } else {
-                                                LASLog.e(TAG, exception.getMessage());
+                                                MLLog.e(TAG, exception.getMessage());
                                                 exception.printStackTrace();
                                             }
                                         }
                                     });
                         } else {
-                            LASLog.e(TAG, exception.getMessage());
+                            MLLog.e(TAG, exception.getMessage());
                             exception.printStackTrace();
                         }
                     }

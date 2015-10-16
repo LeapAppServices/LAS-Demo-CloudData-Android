@@ -29,7 +29,7 @@
  * limitations under the License.
  */
 
-package as.leap.demo.clouddata.log;
+package com.maxleap.demo.clouddata.log;
 
 import android.graphics.Typeface;
 import android.os.Bundle;

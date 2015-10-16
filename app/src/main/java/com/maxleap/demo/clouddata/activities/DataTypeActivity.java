@@ -1,4 +1,4 @@
-package as.leap.demo.clouddata.activities;
+package com.maxleap.demo.clouddata.activities;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -7,21 +7,21 @@ import android.view.View.OnClickListener;
 
 import java.util.Date;
 
-import as.leap.LASDataManager;
-import as.leap.LASGeoPoint;
-import as.leap.LASLog;
-import as.leap.LASObject;
-import as.leap.LASRelation;
-import as.leap.callback.SaveCallback;
-import as.leap.demo.clouddata.R;
-import as.leap.demo.clouddata.log.LogActivity;
-import as.leap.exception.LASException;
+import com.maxleap.MLDataManager;
+import com.maxleap.MLGeoPoint;
+import com.maxleap.MLLog;
+import com.maxleap.MLObject;
+import com.maxleap.MLRelation;
+import com.maxleap.SaveCallback;
+import com.maxleap.demo.clouddata.R;
+import com.maxleap.demo.clouddata.log.LogActivity;
+import com.maxleap.exception.MLException;
 
 public class DataTypeActivity extends LogActivity {
 
     private static final String TAG = DataTypeActivity.class.getSimpleName();
 
-    private LASObject mSavedObject;
+    private MLObject mSavedObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,20 +34,20 @@ public class DataTypeActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                mSavedObject = new LASObject("TestDataType");
+                mSavedObject = new MLObject("TestDataType");
                 mSavedObject.put("foo", "bar");
                 mSavedObject.put("x", 1);
-                LASLog.d("x is ", "" + mSavedObject.getInt("x"));
-                LASLog.d("foo is ", "" + mSavedObject.getString("bar"));
-                LASDataManager.saveInBackground(mSavedObject,
+                MLLog.d("x is ", "" + mSavedObject.getInt("x"));
+                MLLog.d("foo is ", "" + mSavedObject.getString("bar"));
+                MLDataManager.saveInBackground(mSavedObject,
                         new SaveCallback() {
 
                             @Override
-                            public void done(LASException exception) {
+                            public void done(MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG, "finish saving");
+                                    MLLog.i(TAG, "finish saving");
                                 } else {
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                     exception.printStackTrace();
                                 }
                             }
@@ -60,17 +60,17 @@ public class DataTypeActivity extends LogActivity {
             @Override
             public void onClick(View v) {
                 Date now = new Date();
-                final LASObject dateType = new LASObject("TestDataType");
+                final MLObject dateType = new MLObject("TestDataType");
                 dateType.put("now", now);
-                LASLog.d("foo is ", "" + dateType.getDate("noew"));
-                LASDataManager.saveInBackground(dateType, new SaveCallback() {
+                MLLog.d("foo is ", "" + dateType.getDate("noew"));
+                MLDataManager.saveInBackground(dateType, new SaveCallback() {
 
                     @Override
-                    public void done(LASException exception) {
+                    public void done(MLException exception) {
                         if (exception == null) {
-                            LASLog.i(TAG, "finish saving");
+                            MLLog.i(TAG, "finish saving");
                         } else {
-                            LASLog.e(TAG, exception.getMessage());
+                            MLLog.e(TAG, exception.getMessage());
                             exception.printStackTrace();
                         }
                     }
@@ -85,24 +85,24 @@ public class DataTypeActivity extends LogActivity {
             public void onClick(View v) {
                 if (mSavedObject == null
                         || TextUtils.isEmpty(mSavedObject.getObjectId())) {
-                    LASLog.t("Please click primitive button first.");
+                    MLLog.t("Please click primitive button first.");
                     return;
                 }
 
-                final LASObject pointerType = new LASObject("TestDataType");
+                final MLObject pointerType = new MLObject("TestDataType");
                 pointerType.put("pointer", mSavedObject);
-                LASDataManager.saveInBackground(pointerType, new SaveCallback() {
+                MLDataManager.saveInBackground(pointerType, new SaveCallback() {
 
                     @Override
-                    public void done(LASException exception) {
+                    public void done(MLException exception) {
                         if (exception == null) {
-                            LASLog.i(TAG, "finish saving");
+                            MLLog.i(TAG, "finish saving");
 
-                            LASObject pointerObject = pointerType.getLASObject("pointer");
-                            LASLog.i(TAG, "x is " + pointerObject.getInt("x"));
+                            MLObject pointerObject = pointerType.getMLObject("pointer");
+                            MLLog.i(TAG, "x is " + pointerObject.getInt("x"));
 
                         } else {
-                            LASLog.e(TAG, exception.getMessage());
+                            MLLog.e(TAG, exception.getMessage());
                             exception.printStackTrace();
                         }
                     }
@@ -116,24 +116,24 @@ public class DataTypeActivity extends LogActivity {
             public void onClick(View v) {
                 if (mSavedObject == null
                         || TextUtils.isEmpty(mSavedObject.getObjectId())) {
-                    LASLog.t("Please click primitive button first.");
+                    MLLog.t("Please click primitive button first.");
                     return;
                 }
 
-                final LASObject dataType = new LASObject("TestDataType");
+                final MLObject dataType = new MLObject("TestDataType");
                 dataType.getRelation("relation").add(mSavedObject);
-                LASDataManager.saveInBackground(dataType, new SaveCallback() {
+                MLDataManager.saveInBackground(dataType, new SaveCallback() {
 
                     @Override
-                    public void done(LASException exception) {
+                    public void done(MLException exception) {
                         if (exception == null) {
-                            LASLog.i(TAG, "finish saving");
+                            MLLog.i(TAG, "finish saving");
 
-                            LASRelation<LASObject> relation = dataType.getRelation("relation");
+                            MLRelation<MLObject> relation = dataType.getRelation("relation");
                             relation.remove(mSavedObject);
-                            LASDataManager.saveInBackground(dataType);
+                            MLDataManager.saveInBackground(dataType);
                         } else {
-                            LASLog.e(TAG, exception.getMessage());
+                            MLLog.e(TAG, exception.getMessage());
                             exception.printStackTrace();
                         }
                     }
@@ -146,22 +146,22 @@ public class DataTypeActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                final LASObject dataType = new LASObject("TestDataType");
-                LASGeoPoint geoPoint = new LASGeoPoint(30, 25.2);
+                final MLObject dataType = new MLObject("TestDataType");
+                MLGeoPoint geoPoint = new MLGeoPoint(30, 25.2);
                 dataType.put("location", geoPoint);
-                LASDataManager.saveInBackground(dataType, new SaveCallback() {
+                MLDataManager.saveInBackground(dataType, new SaveCallback() {
 
                     @Override
-                    public void done(LASException exception) {
+                    public void done(MLException exception) {
                         if (exception == null) {
-                            LASLog.d(TAG, "finish saving");
+                            MLLog.d(TAG, "finish saving");
 
-                            LASGeoPoint location = dataType.getLASGeoPoint("location");
-                            LASLog.i(TAG, "lat is " + location.getLatitude());
-                            LASLog.i(TAG, "long is " + location.getLongitude());
+                            MLGeoPoint location = dataType.getMLGeoPoint("location");
+                            MLLog.i(TAG, "lat is " + location.getLatitude());
+                            MLLog.i(TAG, "long is " + location.getLongitude());
 
                         } else {
-                            LASLog.e(TAG, exception.getMessage());
+                            MLLog.e(TAG, exception.getMessage());
                             exception.printStackTrace();
                         }
                     }

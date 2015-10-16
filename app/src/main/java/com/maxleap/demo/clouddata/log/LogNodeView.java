@@ -1,14 +1,15 @@
-package as.leap.demo.clouddata.log;
+package com.maxleap.demo.clouddata.log;
 
-import as.leap.LogNode;
-import as.leap.utils.FileHandle;
+import android.app.Activity;
+import android.content.Context;
+import android.widget.TextView;
 
-public class FileLogNode implements LogNode {
+import com.maxleap.LogNode;
 
-    private FileHandle handle;
+public class LogNodeView extends TextView implements LogNode {
 
-    public FileLogNode(FileHandle handle) {
-        this.handle = handle;
+    public LogNodeView(Context context) {
+        super(context);
     }
 
     @Override
@@ -50,6 +51,7 @@ public class FileLogNode implements LogNode {
         final StringBuilder outputBuilder = new StringBuilder();
 
         String delimiter = "\t";
+
         appendIfNotNull(outputBuilder, priorityStr, delimiter);
         appendIfNotNull(outputBuilder, tag, delimiter);
         appendIfNotNull(outputBuilder, message, delimiter);
@@ -57,7 +59,13 @@ public class FileLogNode implements LogNode {
 
         // In case this was originally called from an AsyncTask or some other off-UI thread,
         // make sure the update occurs within the UI thread.
-        appendToLog(outputBuilder.toString());
+        ((Activity) getContext()).runOnUiThread((new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // Display the text we just generated within the LogView.
+                appendToLog(outputBuilder.toString());
+            }
+        })));
     }
 
     private StringBuilder appendIfNotNull(StringBuilder source, String addStr, String delimiter) {
@@ -72,6 +80,6 @@ public class FileLogNode implements LogNode {
     }
 
     public void appendToLog(String s) {
-        handle.tryWriteString("\n" + s, true);
+        append("\n" + s);
     }
 }

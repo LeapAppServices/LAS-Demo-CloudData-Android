@@ -106,7 +106,7 @@
 
     <fragment
         android:id="@+id/log_fragment"
-        android:name="as.leap.demo.clouddata.log.LogFragment"
+        android:name="com.maxleap.demo.clouddata.log.LogFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />

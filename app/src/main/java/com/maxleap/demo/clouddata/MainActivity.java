@@ -1,4 +1,4 @@
-package as.leap.demo.clouddata;
+package com.maxleap.demo.clouddata;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -16,7 +16,6 @@ public class MainActivity extends ListActivity {
             "GeoActivity",
             "OperationActivity",
             "QueryActivity",
-            "RoleActivity",
             "SubClassActivity",
             "UserActivity",
             "FileActivity"

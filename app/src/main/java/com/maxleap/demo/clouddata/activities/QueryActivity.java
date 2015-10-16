@@ -1,28 +1,28 @@
-package as.leap.demo.clouddata.activities;
+package com.maxleap.demo.clouddata.activities;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.maxleap.CountCallback;
+import com.maxleap.FindCallback;
+import com.maxleap.GetCallback;
+import com.maxleap.MLDataManager;
+import com.maxleap.MLLog;
+import com.maxleap.MLQuery;
+import com.maxleap.MLQueryManager;
+import com.maxleap.MLRelation;
+import com.maxleap.SaveCallback;
+import com.maxleap.demo.clouddata.R;
+import com.maxleap.demo.clouddata.entity.Student;
+import com.maxleap.demo.clouddata.entity.Teacher;
+import com.maxleap.demo.clouddata.log.LogActivity;
+import com.maxleap.exception.MLException;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import as.leap.LASDataManager;
-import as.leap.LASLog;
-import as.leap.LASQuery;
-import as.leap.LASQueryManager;
-import as.leap.LASRelation;
-import as.leap.callback.CountCallback;
-import as.leap.callback.FindCallback;
-import as.leap.callback.GetCallback;
-import as.leap.callback.SaveCallback;
-import as.leap.demo.clouddata.R;
-import as.leap.demo.clouddata.entity.Student;
-import as.leap.demo.clouddata.entity.Teacher;
-import as.leap.demo.clouddata.log.LogActivity;
-import as.leap.exception.LASException;
 
 public class QueryActivity extends LogActivity {
 
@@ -77,17 +77,17 @@ public class QueryActivity extends LogActivity {
                 Collections.addAll(students, peter, jack, andy, tom, tony,
                         tina, jane, mary, robot);
 
-                LASDataManager.saveAllInBackground(students,
+                MLDataManager.saveAllInBackground(students,
                         new SaveCallback() {
 
                             @Override
-                            public void done(LASException exception) {
+                            public void done(MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG,
+                                    MLLog.i(TAG,
                                             "finish creating query objects");
                                 } else {
                                     exception.printStackTrace();
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                 }
                             }
                         });
@@ -99,25 +99,25 @@ public class QueryActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                LASQuery<Student> query = LASQuery.getQuery(Student.class);
+                MLQuery<Student> query = MLQuery.getQuery(Student.class);
                 query.whereEqualTo("isMale", true);
                 query.whereGreaterThan("score", 70);
                 query.whereLessThan("age", 15);
                 query.orderByDescending("score");
-                LASQueryManager.findAllInBackground(query,
+                MLQueryManager.findAllInBackground(query,
                         new FindCallback<Student>() {
 
                             @Override
                             public void done(List<Student> students,
-                                             LASException exception) {
+                                             MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG, "finish querying");
+                                    MLLog.i(TAG, "finish querying");
                                     for (Student stu : students) {
-                                        LASLog.i(TAG, "student-->" + stu.getName());
+                                        MLLog.i(TAG, "student-->" + stu.getName());
                                     }
                                 } else {
                                     exception.printStackTrace();
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                 }
                             }
                         });
@@ -127,24 +127,24 @@ public class QueryActivity extends LogActivity {
         findViewById(R.id.scope_button).setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
-                LASQuery<Student> query = LASQuery.getQuery(Student.class);
+                MLQuery<Student> query = MLQuery.getQuery(Student.class);
                 query.whereContainedIn("score", Arrays.asList(50, 80, 90, 92));
                 query.whereDoesNotExist("isMale");
                 query.orderByAscending("score");
-                LASQueryManager.findAllInBackground(query,
+                MLQueryManager.findAllInBackground(query,
                         new FindCallback<Student>() {
 
                             @Override
                             public void done(List<Student> students,
-                                             LASException exception) {
+                                             MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG, "finish querying");
+                                    MLLog.i(TAG, "finish querying");
                                     for (Student stu : students) {
-                                        LASLog.i(TAG, "student-->" + stu.getName());
+                                        MLLog.i(TAG, "student-->" + stu.getName());
                                     }
                                 } else {
                                     exception.printStackTrace();
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                 }
                             }
                         });
@@ -157,30 +157,30 @@ public class QueryActivity extends LogActivity {
             @Override
             public void onClick(View v) {
 
-                LASQuery<Student> sub01 = new LASQuery<Student>(Student.class);
+                MLQuery<Student> sub01 = new MLQuery<Student>(Student.class);
                 sub01.whereGreaterThanOrEqualTo("age", 15);
 
-                LASQuery<Student> sub02 = new LASQuery<Student>(Student.class);
+                MLQuery<Student> sub02 = new MLQuery<Student>(Student.class);
                 sub02.whereLessThanOrEqualTo("age", 10);
 
-                LASQuery<Student> query = LASQuery.or(Arrays.asList(sub01,
+                MLQuery<Student> query = MLQuery.or(Arrays.asList(sub01,
                         sub02));
                 query.addDescendingOrder("score");
                 query.addAscendingOrder("age");
-                LASQueryManager.findAllInBackground(query,
+                MLQueryManager.findAllInBackground(query,
                         new FindCallback<Student>() {
 
                             @Override
                             public void done(List<Student> students,
-                                             LASException exception) {
+                                             MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG, "finish querying");
+                                    MLLog.i(TAG, "finish querying");
                                     for (Student stu : students) {
-                                        LASLog.i(TAG, "student-->" + stu.getName());
+                                        MLLog.i(TAG, "student-->" + stu.getName());
                                     }
                                 } else {
                                     exception.printStackTrace();
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                 }
                             }
                         });
@@ -191,17 +191,17 @@ public class QueryActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                LASQuery<Student> query = LASQuery.getQuery(Student.class);
-                LASQueryManager.countInBackground(query, new CountCallback() {
+                MLQuery<Student> query = MLQuery.getQuery(Student.class);
+                MLQueryManager.countInBackground(query, new CountCallback() {
 
                     @Override
-                    public void done(int count, LASException exception) {
+                    public void done(int count, MLException exception) {
                         if (exception == null) {
-                            LASLog.i(TAG, "finish counting");
-                            LASLog.i(TAG, "count is " + count);
+                            MLLog.i(TAG, "finish counting");
+                            MLLog.i(TAG, "count is " + count);
                         } else {
                             exception.printStackTrace();
-                            LASLog.e(TAG, exception.getMessage());
+                            MLLog.e(TAG, exception.getMessage());
                         }
                     }
                 });
@@ -212,22 +212,22 @@ public class QueryActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                LASQuery<Student> query = LASQuery.getQuery(Student.class);
+                MLQuery<Student> query = MLQuery.getQuery(Student.class);
                 query.setLimit(5);
-                LASQueryManager.findAllInBackground(query,
+                MLQueryManager.findAllInBackground(query,
                         new FindCallback<Student>() {
 
                             @Override
                             public void done(List<Student> students,
-                                             LASException exception) {
+                                             MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG, "finish querying");
+                                    MLLog.i(TAG, "finish querying");
                                     for (Student stu : students) {
-                                        LASLog.i(TAG, "student-->" + stu.getName());
+                                        MLLog.i(TAG, "student-->" + stu.getName());
                                     }
                                 } else {
                                     exception.printStackTrace();
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                 }
                             }
                         });
@@ -238,25 +238,25 @@ public class QueryActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                LASQuery<Student> query = LASQuery.getQuery(Student.class);
+                MLQuery<Student> query = MLQuery.getQuery(Student.class);
                 // query.whereStartsWith("name", "T");
                 // query.whereEndsWith("name", "y");
                 // query.whereMatches("name", "/\\wA\\w{2}/", "i");
                 query.whereContains("name", "o");
-                LASQueryManager.findAllInBackground(query,
+                MLQueryManager.findAllInBackground(query,
                         new FindCallback<Student>() {
 
                             @Override
                             public void done(List<Student> students,
-                                             LASException exception) {
+                                             MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG, "finish querying");
+                                    MLLog.i(TAG, "finish querying");
                                     for (Student stu : students) {
-                                        LASLog.i(TAG, "student-->" + stu.getName());
+                                        MLLog.i(TAG, "student-->" + stu.getName());
                                     }
                                 } else {
                                     exception.printStackTrace();
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                 }
                             }
                         });
@@ -267,23 +267,23 @@ public class QueryActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                LASQuery<Student> query = LASQuery.getQuery(Student.class);
+                MLQuery<Student> query = MLQuery.getQuery(Student.class);
                 query.whereContainsAll("hobbies",
                         Arrays.asList("swimming", "running"));
-                LASQueryManager.findAllInBackground(query,
+                MLQueryManager.findAllInBackground(query,
                         new FindCallback<Student>() {
 
                             @Override
                             public void done(List<Student> students,
-                                             LASException exception) {
+                                             MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG, "finish querying");
+                                    MLLog.i(TAG, "finish querying");
                                     for (Student stu : students) {
-                                        LASLog.i(TAG, "student-->" + stu.getName());
+                                        MLLog.i(TAG, "student-->" + stu.getName());
                                     }
                                 } else {
                                     exception.printStackTrace();
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                 }
                             }
                         });
@@ -294,25 +294,25 @@ public class QueryActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                LASQuery<Student> subQuery = LASQuery.getQuery(Student.class);
+                MLQuery<Student> subQuery = MLQuery.getQuery(Student.class);
                 subQuery.whereEqualTo("isMale", false);
 
-                LASQuery<Student> query = LASQuery.getQuery(Student.class);
+                MLQuery<Student> query = MLQuery.getQuery(Student.class);
                 query.whereMatchesKeyInQuery("name", "nickName", subQuery);
-                LASQueryManager.findAllInBackground(query,
+                MLQueryManager.findAllInBackground(query,
                         new FindCallback<Student>() {
 
                             @Override
                             public void done(List<Student> students,
-                                             LASException exception) {
+                                             MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG, "finish querying");
+                                    MLLog.i(TAG, "finish querying");
                                     for (Student stu : students) {
-                                        LASLog.i(TAG, "student-->" + stu.getName());
+                                        MLLog.i(TAG, "student-->" + stu.getName());
                                     }
                                 } else {
                                     exception.printStackTrace();
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                 }
                             }
                         });
@@ -337,27 +337,27 @@ public class QueryActivity extends LogActivity {
                 final Teacher henry = new Teacher();
                 henry.setName("Henry");
 
-                LASDataManager.saveAllInBackground(
+                MLDataManager.saveAllInBackground(
                         Arrays.asList(louis, kent, peris, henry),
                         new SaveCallback() {
 
                             @Override
-                            public void done(LASException exception) {
+                            public void done(MLException exception) {
                                 if (exception == null) {
                                     louis.addFriend(peris);
                                     louis.addFriend(henry);
-                                    LASDataManager.saveInBackground(louis,
+                                    MLDataManager.saveInBackground(louis,
                                             new SaveCallback() {
 
                                                 @Override
                                                 public void done(
-                                                        LASException exception) {
+                                                        MLException exception) {
                                                     if (exception == null) {
-                                                        LASLog.i(TAG,
+                                                        MLLog.i(TAG,
                                                                 "finish updating");
                                                     } else {
                                                         exception.printStackTrace();
-                                                        LASLog.e(TAG, exception.getMessage());
+                                                        MLLog.e(TAG, exception.getMessage());
                                                     }
                                                 }
                                             });
@@ -374,22 +374,22 @@ public class QueryActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                LASQuery<Teacher> query = LASQuery.getQuery(Teacher.class);
+                MLQuery<Teacher> query = MLQuery.getQuery(Teacher.class);
                 query.whereEqualTo("name", "Louis");
                 query.include("bestFriend");
-                LASQueryManager.getFirstInBackground(query,
+                MLQueryManager.getFirstInBackground(query,
                         new GetCallback<Teacher>() {
 
                             @Override
                             public void done(Teacher louis,
-                                             LASException exception) {
+                                             MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG, "finish querying");
-                                    LASLog.i(TAG, louis.getName());
-                                    LASLog.i(TAG, louis.getBestFriend().getName());
+                                    MLLog.i(TAG, "finish querying");
+                                    MLLog.i(TAG, louis.getName());
+                                    MLLog.i(TAG, louis.getBestFriend().getName());
                                 } else {
                                     exception.printStackTrace();
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                 }
                             }
                         });
@@ -400,42 +400,42 @@ public class QueryActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                LASQuery<Teacher> query = LASQuery.getQuery(Teacher.class);
+                MLQuery<Teacher> query = MLQuery.getQuery(Teacher.class);
                 query.whereEqualTo("name", "Louis");
                 query.include("bestFriend");
-                LASQueryManager.getFirstInBackground(query,
+                MLQueryManager.getFirstInBackground(query,
                         new GetCallback<Teacher>() {
 
                             @Override
                             public void done(Teacher louis,
-                                             LASException exception) {
+                                             MLException exception) {
                                 if (exception == null) {
-                                    LASRelation<Teacher> friendsRelation = louis
+                                    MLRelation<Teacher> friendsRelation = louis
                                             .getFriends();
-                                    LASQuery<Teacher> relationQuery = friendsRelation
+                                    MLQuery<Teacher> relationQuery = friendsRelation
                                             .getQuery();
-                                    LASQueryManager.findAllInBackground(
+                                    MLQueryManager.findAllInBackground(
                                             relationQuery,
                                             new FindCallback<Teacher>() {
 
                                                 @Override
                                                 public void done(
                                                         List<Teacher> friends,
-                                                        LASException exception) {
+                                                        MLException exception) {
                                                     if (exception == null) {
-                                                        LASLog.i(TAG, "finish querying");
+                                                        MLLog.i(TAG, "finish querying");
                                                         for (Teacher friend : friends) {
-                                                            LASLog.i(TAG, "friend-->" + friend.getName());
+                                                            MLLog.i(TAG, "friend-->" + friend.getName());
                                                         }
                                                     } else {
                                                         exception.printStackTrace();
-                                                        LASLog.e(TAG, exception.getMessage());
+                                                        MLLog.e(TAG, exception.getMessage());
                                                     }
                                                 }
                                             });
                                 } else {
                                     exception.printStackTrace();
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                 }
                             }
                         });
@@ -447,24 +447,24 @@ public class QueryActivity extends LogActivity {
             @Override
             public void onClick(View v) {
 
-                LASQuery<Teacher> inQuery = LASQuery.getQuery(Teacher.class);
+                MLQuery<Teacher> inQuery = MLQuery.getQuery(Teacher.class);
                 // inQuery.whereExists("name");
-                LASQuery<Teacher> query = LASQuery.getQuery(Teacher.class);
+                MLQuery<Teacher> query = MLQuery.getQuery(Teacher.class);
                 query.whereMatchesQuery("bestFriend", inQuery);
-                LASQueryManager.findAllInBackground(query,
+                MLQueryManager.findAllInBackground(query,
                         new FindCallback<Teacher>() {
 
                             @Override
                             public void done(List<Teacher> friends,
-                                             LASException exception) {
+                                             MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG, "finish querying");
+                                    MLLog.i(TAG, "finish querying");
                                     for (Teacher friend : friends) {
-                                        LASLog.i(TAG, "friend-->" + friend.getName());
+                                        MLLog.i(TAG, "friend-->" + friend.getName());
                                     }
                                 } else {
                                     exception.printStackTrace();
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                 }
                             }
                         });

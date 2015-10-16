@@ -1,10 +1,10 @@
-package as.leap.demo.clouddata.entity;
+package com.maxleap.demo.clouddata.entity;
 
-import as.leap.LASClassName;
-import as.leap.LASObject;
+import com.maxleap.MLClassName;
+import com.maxleap.MLObject;
 
-@LASClassName(value = "tbHero")
-public class Hero extends LASObject {
+@MLClassName(value = "tbHero")
+public class Hero extends MLObject {
 
     public void setPower(int power) {
         put("power", power);

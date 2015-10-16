@@ -1,16 +1,15 @@
-package as.leap.demo.clouddata.log;
+package com.maxleap.demo.clouddata.log;
 
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
-import as.leap.ConsoleLogNode;
-import as.leap.LASLog;
-import as.leap.LogNodeDecorator;
-import as.leap.demo.clouddata.R;
-import as.leap.utils.FileHandle;
-import as.leap.utils.FileHandles;
+import com.maxleap.ConsoleLogNode;
+import com.maxleap.LogNodeDecorator;
+import com.maxleap.MLLog;
+import com.maxleap.demo.clouddata.R;
+import com.maxleap.utils.FileHandle;
+import com.maxleap.utils.FileHandles;
 
 public abstract class LogActivity extends AppCompatActivity {
 
@@ -29,7 +28,7 @@ public abstract class LogActivity extends AppCompatActivity {
 
         LogNodeDecorator decorator = new LogNodeDecorator(consoleNodeDecorator);
         decorator.setNext(logFragment.getLogView());
-        LASLog.setWrapper(decorator);
+        MLLog.setWrapper(decorator);
     }
 
     @Override

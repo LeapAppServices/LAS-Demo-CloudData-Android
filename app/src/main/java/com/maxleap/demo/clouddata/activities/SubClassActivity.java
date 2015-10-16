@@ -1,18 +1,18 @@
-package as.leap.demo.clouddata.activities;
+package com.maxleap.demo.clouddata.activities;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import java.util.Calendar;
+import com.maxleap.MLDataManager;
+import com.maxleap.MLLog;
+import com.maxleap.SaveCallback;
+import com.maxleap.demo.clouddata.R;
+import com.maxleap.demo.clouddata.entity.Student;
+import com.maxleap.demo.clouddata.log.LogActivity;
+import com.maxleap.exception.MLException;
 
-import as.leap.LASDataManager;
-import as.leap.LASLog;
-import as.leap.callback.SaveCallback;
-import as.leap.demo.clouddata.R;
-import as.leap.demo.clouddata.entity.Student;
-import as.leap.demo.clouddata.log.LogActivity;
-import as.leap.exception.LASException;
+import java.util.Calendar;
 
 public class SubClassActivity extends LogActivity {
 
@@ -36,14 +36,14 @@ public class SubClassActivity extends LogActivity {
                 Calendar cal = Calendar.getInstance();
                 cal.set(2000, 8, 4);
                 student.setBirthday(cal.getTime());
-                LASDataManager.saveInBackground(student, new SaveCallback() {
+                MLDataManager.saveInBackground(student, new SaveCallback() {
 
                     @Override
-                    public void done(LASException exception) {
+                    public void done(MLException exception) {
                         if (exception == null) {
-                            LASLog.i(TAG, "finish saving student");
+                            MLLog.i(TAG, "finish saving student");
                         } else {
-                            LASLog.e(TAG, exception.getMessage());
+                            MLLog.e(TAG, exception.getMessage());
                             exception.printStackTrace();
                         }
                     }

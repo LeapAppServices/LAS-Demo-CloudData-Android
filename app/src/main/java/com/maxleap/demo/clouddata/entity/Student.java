@@ -1,13 +1,13 @@
-package as.leap.demo.clouddata.entity;
+package com.maxleap.demo.clouddata.entity;
+
+import com.maxleap.MLClassName;
+import com.maxleap.MLObject;
 
 import java.util.Collection;
 import java.util.Date;
 
-import as.leap.LASClassName;
-import as.leap.LASObject;
-
-@LASClassName(value = "tbStudent")
-public class Student extends LASObject {
+@MLClassName(value = "tbStudent")
+public class Student extends MLObject {
 
     public void setName(String name) {
         put("name", name);

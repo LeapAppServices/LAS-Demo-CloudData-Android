@@ -1,4 +1,4 @@
-package as.leap.demo.clouddata.activities;
+package com.maxleap.demo.clouddata.activities;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -7,25 +7,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import as.leap.LASDataManager;
-import as.leap.LASFile;
-import as.leap.LASFileManager;
-import as.leap.LASLog;
-import as.leap.LASObject;
-import as.leap.LASQueryManager;
-import as.leap.callback.GetCallback;
-import as.leap.callback.GetDataCallback;
-import as.leap.callback.ProgressCallback;
-import as.leap.callback.SaveCallback;
-import as.leap.demo.clouddata.R;
-import as.leap.demo.clouddata.log.LogActivity;
-import as.leap.exception.LASException;
+import com.maxleap.GetCallback;
+import com.maxleap.GetDataCallback;
+import com.maxleap.MLDataManager;
+import com.maxleap.MLFile;
+import com.maxleap.MLFileManager;
+import com.maxleap.MLLog;
+import com.maxleap.MLObject;
+import com.maxleap.MLQueryManager;
+import com.maxleap.ProgressCallback;
+import com.maxleap.SaveCallback;
+import com.maxleap.demo.clouddata.R;
+import com.maxleap.demo.clouddata.log.LogActivity;
+import com.maxleap.exception.MLException;
 
 public class FileActivity extends LogActivity {
 
     public static final String TAG = FileActivity.class.getSimpleName();
 
-    private LASObject mSavedTextObject;
+    private MLObject mSavedTextObject;
 
     private ProgressDialog createProgressDialog() {
         ProgressDialog progressDialog = new ProgressDialog(FileActivity.this);
@@ -37,7 +37,7 @@ public class FileActivity extends LogActivity {
 
             @Override
             public void onCancel(DialogInterface dialog) {
-                LASFileManager.cancel();
+                MLFileManager.cancel();
                 dialog.cancel();
             }
         });
@@ -56,17 +56,17 @@ public class FileActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                byte[] data = ("My name is LAS!" + System
+                byte[] data = ("My name is ML!" + System
                         .currentTimeMillis()).getBytes();
-                final LASFile file = new LASFile("resume.txt", data);
+                final MLFile file = new MLFile("resume.txt", data);
                 final ProgressDialog progressDialog = createProgressDialog();
-                LASFileManager.saveInBackground(file, new SaveCallback() {
+                MLFileManager.saveInBackground(file, new SaveCallback() {
 
                     @Override
-                    public void done(LASException exception) {
+                    public void done(MLException exception) {
                         progressDialog.dismiss();
                         if (exception != null) {
-                            LASLog.e(TAG, exception.getMessage());
+                            MLLog.e(TAG, exception.getMessage());
                             exception.printStackTrace();
                             return;
                         }
@@ -87,18 +87,18 @@ public class FileActivity extends LogActivity {
             @Override
             public void onClick(View v) {
                 if (mSavedTextObject == null) {
-                    LASLog.t("Please upload the text first.");
+                    MLLog.t("Please upload the text first.");
                     return;
                 }
 
-                LASQueryManager.getInBackground(
+                MLQueryManager.getInBackground(
                         mSavedTextObject.getClassName(),
                         mSavedTextObject.getObjectId(),
-                        new GetCallback<LASObject>() {
+                        new GetCallback<MLObject>() {
 
                             @Override
-                            public void done(LASObject objectAgain,
-                                             LASException exception) {
+                            public void done(MLObject objectAgain,
+                                             MLException exception) {
                                 downloadText(objectAgain);
                             }
                         });
@@ -108,40 +108,40 @@ public class FileActivity extends LogActivity {
 
     }
 
-    private void putTextIntoObject(LASFile file) {
-        mSavedTextObject = new LASObject("JobApplication");
+    private void putTextIntoObject(MLFile file) {
+        mSavedTextObject = new MLObject("JobApplication");
         mSavedTextObject.put("applicationName", "Joe Smith");
         mSavedTextObject.put("attachment", file);
-        LASDataManager.saveInBackground(mSavedTextObject, new SaveCallback() {
+        MLDataManager.saveInBackground(mSavedTextObject, new SaveCallback() {
 
             @Override
-            public void done(LASException exception) {
+            public void done(MLException exception) {
                 if (exception != null) {
-                    LASLog.e(TAG, exception.getMessage());
+                    MLLog.e(TAG, exception.getMessage());
                     exception.printStackTrace();
                     return;
                 }
-                LASLog.i(TAG, "finish saving");
+                MLLog.i(TAG, "finish saving");
             }
         });
     }
 
-    private void downloadText(final LASObject obj) {
+    private void downloadText(final MLObject obj) {
         final ProgressDialog progressDialog = createProgressDialog();
-        LASFile file = obj.getLASFile("attachment");
+        MLFile file = obj.getMLFile("attachment");
 
-        LASFileManager.getDataInBackground(file, new GetDataCallback() {
+        MLFileManager.getDataInBackground(file, new GetDataCallback() {
 
             @Override
-            public void done(final byte[] object, LASException exception) {
+            public void done(final byte[] object, MLException exception) {
                 progressDialog.dismiss();
                 if (exception != null) {
-                    LASLog.e(TAG, exception.getMessage());
+                    MLLog.e(TAG, exception.getMessage());
                     exception.printStackTrace();
                     return;
                 }
-                LASLog.i(TAG, "finish downloading");
-                LASLog.i(TAG, new String(object));
+                MLLog.i(TAG, "finish downloading");
+                MLLog.i(TAG, new String(object));
             }
         }, new ProgressCallback() {
 

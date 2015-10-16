@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="as.leap.demo.clouddata">
+    package="com.maxleap.demo.clouddata">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -10,13 +10,13 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name=".App"
+        android:name="com.maxleap.demo.clouddata.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="com.maxleap.demo.clouddata.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,15 +25,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.CoreActivity" />
-        <activity android:name=".activities.DataTypeActivity" />
-        <activity android:name=".activities.FileActivity" />
-        <activity android:name=".activities.GeoActivity" />
-        <activity android:name=".activities.OperationActivity" />
-        <activity android:name=".activities.QueryActivity" />
-        <activity android:name=".activities.RoleActivity" />
-        <activity android:name=".activities.SubClassActivity" />
-        <activity android:name=".activities.UserActivity" />
+        <activity android:name="com.maxleap.demo.clouddata.activities.CoreActivity" />
+        <activity android:name="com.maxleap.demo.clouddata.activities.DataTypeActivity" />
+        <activity android:name="com.maxleap.demo.clouddata.activities.FileActivity" />
+        <activity android:name="com.maxleap.demo.clouddata.activities.GeoActivity" />
+        <activity android:name="com.maxleap.demo.clouddata.activities.OperationActivity" />
+        <activity android:name="com.maxleap.demo.clouddata.activities.QueryActivity" />
+        <activity android:name="com.maxleap.demo.clouddata.activities.SubClassActivity" />
+        <activity android:name="com.maxleap.demo.clouddata.activities.UserActivity" />
     </application>
 
 </manifest>

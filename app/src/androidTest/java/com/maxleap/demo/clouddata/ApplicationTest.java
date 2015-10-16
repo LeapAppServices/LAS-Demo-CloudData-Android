@@ -1,4 +1,4 @@
-package as.leap.demo.clouddata;
+package com.maxleap.demo.clouddata;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

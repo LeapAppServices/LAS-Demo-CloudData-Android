@@ -1,24 +1,24 @@
-package as.leap.demo.clouddata.activities;
+package com.maxleap.demo.clouddata.activities;
 
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import as.leap.LASDataManager;
-import as.leap.LASLog;
-import as.leap.LASObject;
-import as.leap.callback.DeleteCallback;
-import as.leap.callback.GetCallback;
-import as.leap.callback.SaveCallback;
-import as.leap.demo.clouddata.R;
-import as.leap.demo.clouddata.log.LogActivity;
-import as.leap.exception.LASException;
+import com.maxleap.DeleteCallback;
+import com.maxleap.GetCallback;
+import com.maxleap.MLDataManager;
+import com.maxleap.MLLog;
+import com.maxleap.MLObject;
+import com.maxleap.SaveCallback;
+import com.maxleap.demo.clouddata.R;
+import com.maxleap.demo.clouddata.log.LogActivity;
+import com.maxleap.exception.MLException;
 
 public class CoreActivity extends LogActivity {
 
     public static final String TAG = CoreActivity.class.getSimpleName();
 
-    private LASObject mSavedObject;
+    private MLObject mSavedObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,20 +31,20 @@ public class CoreActivity extends LogActivity {
 
             @Override
             public void onClick(View v) {
-                mSavedObject = new LASObject("GamePlayer");
+                mSavedObject = new MLObject("GamePlayer");
                 mSavedObject.put("score", 1200);
                 mSavedObject.put("name", "Peter");
                 mSavedObject.put("isMale", true);
-                LASDataManager.saveInBackground(mSavedObject,
+                MLDataManager.saveInBackground(mSavedObject,
                         new SaveCallback() {
 
                             @Override
-                            public void done(LASException exception) {
+                            public void done(MLException exception) {
                                 if (exception != null) {
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                     exception.printStackTrace();
                                 } else {
-                                    LASLog.i(TAG, "finish saving");
+                                    MLLog.i(TAG, "finish saving");
                                 }
                             }
                         });
@@ -57,22 +57,22 @@ public class CoreActivity extends LogActivity {
             @Override
             public void onClick(View v) {
                 if (mSavedObject == null) {
-                    LASLog.t("Please create an object first");
+                    MLLog.t("Please create an object first");
                     return;
                 }
-                LASObject gamePlayer = new LASObject("GamePlayer");
+                MLObject gamePlayer = new MLObject("GamePlayer");
                 gamePlayer.setObjectId(mSavedObject.getObjectId());
-                LASDataManager.fetchInBackground(gamePlayer,
-                        new GetCallback<LASObject>() {
+                MLDataManager.fetchInBackground(gamePlayer,
+                        new GetCallback<MLObject>() {
 
                             @Override
-                            public void done(LASObject returnValue,
-                                             LASException exception) {
+                            public void done(MLObject returnValue,
+                                             MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG, "finish fetching");
-                                    LASLog.i(TAG, "name of getObject is " + returnValue.getString("name"));
+                                    MLLog.i(TAG, "finish fetching");
+                                    MLLog.i(TAG, "name of getObject is " + returnValue.getString("name"));
                                 } else {
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                     exception.printStackTrace();
                                 }
                             }
@@ -85,21 +85,21 @@ public class CoreActivity extends LogActivity {
             @Override
             public void onClick(View v) {
                 if (mSavedObject == null) {
-                    LASLog.t("Please create an object first");
+                    MLLog.t("Please create an object first");
                     return;
                 }
 
                 mSavedObject.put("name", "Jane");
                 mSavedObject.put("isMale", false);
-                LASDataManager.saveInBackground(mSavedObject,
+                MLDataManager.saveInBackground(mSavedObject,
                         new SaveCallback() {
 
                             @Override
-                            public void done(LASException exception) {
+                            public void done(MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG, "finish updating");
+                                    MLLog.i(TAG, "finish updating");
                                 } else {
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                     exception.printStackTrace();
                                 }
                             }
@@ -112,20 +112,20 @@ public class CoreActivity extends LogActivity {
             @Override
             public void onClick(View v) {
                 if (mSavedObject == null) {
-                    LASLog.t("Please create an object first");
+                    MLLog.t("Please create an object first");
                     return;
                 }
 
-                LASDataManager.deleteInBackground(mSavedObject,
+                MLDataManager.deleteInBackground(mSavedObject,
                         new DeleteCallback() {
 
                             @Override
-                            public void done(LASException exception) {
+                            public void done(MLException exception) {
                                 if (exception == null) {
-                                    LASLog.i(TAG, "finish deleting");
+                                    MLLog.i(TAG, "finish deleting");
                                     mSavedObject = null;
                                 } else {
-                                    LASLog.e(TAG, exception.getMessage());
+                                    MLLog.e(TAG, exception.getMessage());
                                     exception.printStackTrace();
                                 }
                             }
