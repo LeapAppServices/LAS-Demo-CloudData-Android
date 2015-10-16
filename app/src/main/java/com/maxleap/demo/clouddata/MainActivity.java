@@ -34,7 +34,7 @@ public class MainActivity extends ListActivity {
         super.onListItemClick(list, view, position, id);
         String testName = tests[position];
         try {
-            Class<?> clazz = Class.forName("as.leap.demo.clouddata.activities." + testName);
+            Class<?> clazz = Class.forName("com.maxleap.demo.clouddata.activities." + testName);
             Intent intent = new Intent(this, clazz);
             startActivity(intent);
         } catch (ClassNotFoundException e) {
