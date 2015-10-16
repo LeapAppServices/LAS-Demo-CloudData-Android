@@ -15,6 +15,11 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="ml_channel"
+            android:value="google_play" />
+
         <activity
             android:name="com.maxleap.demo.clouddata.MainActivity"
             android:label="@string/app_name">
